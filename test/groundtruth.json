@@ -1,0 +1,52 @@
+[
+
+    { 
+        "userPassword": "P@ssw0rd",
+        "privateKey": "0x56450b9e335eb41b0c90454285001f793e7bac2b2c94c353c392b38a2292e7d0",
+        "encryptedIdentity": "c33dcc598252fbbb4a94ff2d0f70dbe7d77360d8ca4a036ad1dd80bc4c7bb0b818517bdd5fdd0cf0562080e33559bfab637d3ed3ccd6ddfdbd58b8d8874047bf",
+        "freeverseId": "0x70141191E3304f70D07217Ee3B8316eF0F437670",
+        "source": "CryptoJS"
+    },
+    { 
+        "userPassword": "P@ssw0rd",
+        "privateKey": "0x56450b9e335eb41b0c90454285001f793e7bac2b2c94c353c392b38a2292e7d0",
+        "encryptedIdentity": "9a5ccfe5f4666bbdff2ca30f1561295b36d7bf2470949dad11355d3b75b722866d389e340d45366efa2c760f5db4b07ba620eddb2574e8d80f7550b51c309dcd",
+        "freeverseId": "0x70141191E3304f70D07217Ee3B8316eF0F437670",
+        "source": "C#"
+    },
+    { 
+        "userPassword": "1",
+        "privateKey": "0x56450b9e335eb41b0c90454285001f793e7bac2b2c94c353c392b38a2292e7d0",
+        "encryptedIdentity": "b50514a8291c80f040e0623370979e343db347b8ecf86a1de3229fd4dfc2a83026023738ede50262fc77ddb7942290a41e5a3b2a61c3063ac7a04a8395d64f91",
+        "freeverseId": "0x70141191E3304f70D07217Ee3B8316eF0F437670",
+        "source": "CryptoJS"
+    },
+    { 
+        "userPassword": "1",
+        "privateKey": "0x56450b9e335eb41b0c90454285001f793e7bac2b2c94c353c392b38a2292e7d0",
+        "encryptedIdentity": "ad141c8a19aa82fadd1980b1f0f541ef53558ee1433bd53d8b6c1f5bf001e4f26cfe2609b6058b4e0fc7ed9f37953063a1ce9abd8b8ee0373dd7882d36354c7c",
+        "freeverseId": "0x70141191E3304f70D07217Ee3B8316eF0F437670",
+        "source": "C#"
+    },
+    { 
+        "userPassword": "12345678abcde!..",
+        "privateKey": "0x56450b9e335eb41b0c90454285001f793e7bac2b2c94c353c392b38a2292e7d0",
+        "encryptedIdentity": "ba2dc838ca65581ad3ce7d4db3980e720ccb300d2d9dd3487454b16c91b22c2d2f70de1270b35edc77515abfd710f61a090289e1336ba7e0cbe73250509fb76b",
+        "freeverseId": "0x70141191E3304f70D07217Ee3B8316eF0F437670",
+        "source": "CryptoJS"
+    },
+    { 
+        "userPassword": "12345678abcde!..",
+        "privateKey": "0x56450b9e335eb41b0c90454285001f793e7bac2b2c94c353c392b38a2292e7d0",
+        "encryptedIdentity": "088ac1d05f70fa45e1d130c05291d912fa89826b12ddc2dd89487c247a7764af3365582b3cfde34fc2bdb2dd72a54edd90149d0da6c05d02fb779bddb3348e39",
+        "freeverseId": "0x70141191E3304f70D07217Ee3B8316eF0F437670",
+        "source": "C#"
+    },
+    { 
+        "userPassword": "Pepa123!",
+        "privateKey": "0x80353f12504fe3fda419972a3580af42869fc8a3d4fd9ea1fe5aac9662b318c6",
+        "encryptedIdentity": "b4e937838f31ce651386eee69ea461ecc4eac71b607a1731fab3984edfc67ec22d5eb24942e7e0e440f7e7ee356d88ef553fe78d9462c81b343cdf0455fc0209",
+        "freeverseId": "0x8586F5DECd89fC0185ebfd67DE66cB2c8357b621",
+        "source": "CryptoJS"
+    }
+]
