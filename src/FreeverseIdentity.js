@@ -41,11 +41,11 @@ const applyKDF = (password, salt) => {
 
 // Returns a Web3 Account with a brand new pair (privateKey/user_id)
 // capable of signing on behalf of privateKey
-const CreateNewAccount = () => new Web3().eth.accounts.create();
+const createNewAccount = () => new Web3().eth.accounts.create();
 
 // Returns a Web3 Account from a given privateKey,
 // capable of signing on behalf of privateKey
-const AccountFromPrivateKey = (privKey) => {
+const accountFromPrivateKey = (privKey) => {
   try {
     return new Web3().eth.accounts.privateKeyToAccount(privKey);
   } catch {
@@ -55,8 +55,8 @@ const AccountFromPrivateKey = (privKey) => {
 
 // Returns the public freeverseID corresponding to the provided private key.
 // The freeverseID can be shared. The Private key should never leave the user's control.
-const FreeverseIdFromPrivateKey = (privKey) => {
-  const account = AccountFromPrivateKey(privKey);
+const freeverseIdFromPrivateKey = (privKey) => {
+  const account = accountFromPrivateKey(privKey);
   return account.address;
 };
 
@@ -66,7 +66,7 @@ const FreeverseIdFromPrivateKey = (privKey) => {
 // The encryption the AES standard with an AES recommended KDF.
 // The user should store the Encrypted Identity in a safe place,
 // an attacker would need access to it as well as knowledge of the user-entered password.
-const EncryptIdentity = (pvk, password) => {
+const encryptIdentity = (pvk, password) => {
   const salt = CryptoJS.lib.WordArray.random(16);
   // generate (IV, key) from an AES-secure Key Derivation Function
   const kdf = applyKDF(password, salt);
@@ -77,7 +77,7 @@ const EncryptIdentity = (pvk, password) => {
 };
 
 // Decryption of an encrypted private key, given a user-entered password, following AES standard.
-const DecryptIdentity = (encryptedIdentity, password) => {
+const decryptIdentity = (encryptedIdentity, password) => {
   // An encrypted Identity is a hex-formatted string, which is the concat of:
   // ...salt (32bit)
   const salt = CryptoJS.enc.Hex.parse(encryptedIdentity.slice(0, 32));
@@ -101,7 +101,7 @@ const DecryptIdentity = (encryptedIdentity, password) => {
   // Before returning, check that a valid account can be generated from this privKey
   // Otherwise: throw.
   try {
-    FreeverseIdFromPrivateKey(privKey);
+    freeverseIdFromPrivateKey(privKey);
   } catch {
     throw new Error('The Encrypted ID and Password entered do not match');
   }
@@ -109,9 +109,9 @@ const DecryptIdentity = (encryptedIdentity, password) => {
 };
 
 module.exports = {
-  FreeverseIdFromPrivateKey,
-  EncryptIdentity,
-  DecryptIdentity,
-  CreateNewAccount,
-  AccountFromPrivateKey,
+  freeverseIdFromPrivateKey,
+  encryptIdentity,
+  decryptIdentity,
+  createNewAccount,
+  accountFromPrivateKey,
 };
