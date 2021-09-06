@@ -27,7 +27,7 @@ const CryptoJS = require('crypto-js');
 
 // Use a an AES-Standard KDF (Key Derivation Function) to generate (IV, key) from (password, salt)
 // This is a standard step that makes brute-force attacks much harder
-function applyKDF(password, salt) {
+const applyKDF = (password, salt) => {
   const keyBytes = CryptoJS.PBKDF2(password, salt, { keySize: 48 / 4, iterations: 1000 });
   // take first 32 bytes as key
   const key = CryptoJS.lib.WordArray.create(keyBytes.words, 32);
@@ -37,81 +37,81 @@ function applyKDF(password, salt) {
     key,
     iv,
   };
-}
+};
 
-/* MAIN CLASS */
+// Returns a Web3 Account with a brand new pair (privateKey/user_id)
+// capable of signing on behalf of privateKey
+const CreateNewAccount = () => new Web3().eth.accounts.create();
 
-class FreeverseIdentity {
-  // Returns the public freeverseID corresponding to the provided private key.
-  // The freeverseID can be shared. The Private key should never leave the user's control.
-  static FreeverseIdFromPrivateKey(privKey) {
-    const account = this.AccountFromPrivateKey(privKey);
-    return account.address;
+// Returns a Web3 Account from a given privateKey,
+// capable of signing on behalf of privateKey
+const AccountFromPrivateKey = (privKey) => {
+  try {
+    return new Web3().eth.accounts.privateKeyToAccount(privKey);
+  } catch {
+    throw new Error('Private Key does not have correct format');
   }
+};
 
-  // Generates an Encrypted Identity, which is the concat of:
-  // - salt (32b)
-  // - the encryption of hte provided private key using the provided user password
-  // The encryption the AES standard with an AES recommended KDF.
-  // The user should store the Encrypted Identity in a safe place,
-  // an attacker would need access to it as well as knowledge of the user-entered password.
-  static EncryptIdentity(pvk, password) {
-    const salt = CryptoJS.lib.WordArray.random(16);
-    // generate (IV, key) from an AES-secure Key Derivation Function
-    const kdf = applyKDF(password, salt);
-    const pvkNoTrail = (pvk.slice(0, 2) === '0x') ? pvk.slice(2) : pvk;
-    const pvkWords = CryptoJS.enc.Hex.parse(pvkNoTrail);
-    const encrypted = CryptoJS.AES.encrypt(pvkWords, kdf.key, { iv: kdf.iv });
-    return salt.concat(encrypted.ciphertext).toString(CryptoJS.enc.Hex);
+// Returns the public freeverseID corresponding to the provided private key.
+// The freeverseID can be shared. The Private key should never leave the user's control.
+const FreeverseIdFromPrivateKey = (privKey) => {
+  const account = AccountFromPrivateKey(privKey);
+  return account.address;
+};
+
+// Generates an Encrypted Identity, which is the concat of:
+// - salt (32b)
+// - the encryption of hte provided private key using the provided user password
+// The encryption the AES standard with an AES recommended KDF.
+// The user should store the Encrypted Identity in a safe place,
+// an attacker would need access to it as well as knowledge of the user-entered password.
+const EncryptIdentity = (pvk, password) => {
+  const salt = CryptoJS.lib.WordArray.random(16);
+  // generate (IV, key) from an AES-secure Key Derivation Function
+  const kdf = applyKDF(password, salt);
+  const pvkNoTrail = (pvk.slice(0, 2) === '0x') ? pvk.slice(2) : pvk;
+  const pvkWords = CryptoJS.enc.Hex.parse(pvkNoTrail);
+  const encrypted = CryptoJS.AES.encrypt(pvkWords, kdf.key, { iv: kdf.iv });
+  return salt.concat(encrypted.ciphertext).toString(CryptoJS.enc.Hex);
+};
+
+// Decryption of an encrypted private key, given a user-entered password, following AES standard.
+const DecryptIdentity = (encryptedIdentity, password) => {
+  // An encrypted Identity is a hex-formatted string, which is the concat of:
+  // ...salt (32bit)
+  const salt = CryptoJS.enc.Hex.parse(encryptedIdentity.slice(0, 32));
+  // ..and encrypted private key
+  const cipherText = CryptoJS.enc.Hex.parse(encryptedIdentity.slice(32));
+
+  // generate (IV, key) from an AES-secure Key Derivation Function, and decrypt
+  const kdf = applyKDF(password, salt);
+  const plaintextArray = CryptoJS.AES.decrypt(
+    {
+      ciphertext: cipherText,
+      salt: '',
+    },
+    kdf.key,
+    {
+      iv: kdf.iv,
+    },
+  );
+  const privKey = `0x${plaintextArray.toString(CryptoJS.enc.Hex)}`;
+
+  // Before returning, check that a valid account can be generated from this privKey
+  // Otherwise: throw.
+  try {
+    FreeverseIdFromPrivateKey(privKey);
+  } catch {
+    throw new Error('The Encrypted ID and Password entered do not match');
   }
+  return privKey;
+};
 
-  // Decryption of an encrypted private key, given a user-entered password, following AES standard.
-  static DecryptIdentity(encryptedIdentity, password) {
-    // An encrypted Identity is a hex-formatted string, which is the concat of:
-    // ...salt (32bit)
-    const salt = CryptoJS.enc.Hex.parse(encryptedIdentity.slice(0, 32));
-    // ..and encrypted private key
-    const cipherText = CryptoJS.enc.Hex.parse(encryptedIdentity.slice(32));
-
-    // generate (IV, key) from an AES-secure Key Derivation Function, and decrypt
-    const kdf = applyKDF(password, salt);
-    const plaintextArray = CryptoJS.AES.decrypt(
-      {
-        ciphertext: cipherText,
-        salt: '',
-      },
-      kdf.key,
-      {
-        iv: kdf.iv,
-      },
-    );
-    const privKey = `0x${plaintextArray.toString(CryptoJS.enc.Hex)}`;
-
-    // Before returning, check that a valid account can be generated from this privKey
-    // Otherwise: throw.
-    try {
-      this.FreeverseIdFromPrivateKey(privKey);
-    } catch {
-      throw new Error('The Encrypted ID and Password entered do not match');
-    }
-    return privKey;
-  }
-
-  // Returns a Web3 Account with a brand new pair (privateKey/user_id)
-  // capable of signing on behalf of privateKey
-  static CreateNewAccount() {
-    return new Web3().eth.accounts.create();
-  }
-
-  // Returns a Web3 Account from a given privateKey,
-  // capable of signing on behalf of privateKey
-  static AccountFromPrivateKey(privKey) {
-    try {
-      return new Web3().eth.accounts.privateKeyToAccount(privKey);
-    } catch {
-      throw new Error('Private Key does not have correct format');
-    }
-  }
-}
-
-module.exports = FreeverseIdentity;
+module.exports = {
+  FreeverseIdFromPrivateKey,
+  EncryptIdentity,
+  DecryptIdentity,
+  CreateNewAccount,
+  AccountFromPrivateKey,
+};
