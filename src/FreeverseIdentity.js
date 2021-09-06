@@ -22,7 +22,6 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 // SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-/* eslint class-methods-use-this: 0 */
 const Web3 = require('web3');
 const CryptoJS = require('crypto-js');
 
@@ -45,7 +44,7 @@ function applyKDF(password, salt) {
 class FreeverseIdentity {
   // Returns the public freeverseID corresponding to the provided private key.
   // The freeverseID can be shared. The Private key should never leave the user's control.
-  FreeverseIdFromPrivateKey(privKey) {
+  static FreeverseIdFromPrivateKey(privKey) {
     const account = this.AccountFromPrivateKey(privKey);
     return account.address;
   }
@@ -56,7 +55,7 @@ class FreeverseIdentity {
   // The encryption the AES standard with an AES recommended KDF.
   // The user should store the Encrypted Identity in a safe place,
   // an attacker would need access to it as well as knowledge of the user-entered password.
-  EncryptIdentity(pvk, password) {
+  static EncryptIdentity(pvk, password) {
     const salt = CryptoJS.lib.WordArray.random(16);
     // generate (IV, key) from an AES-secure Key Derivation Function
     const kdf = applyKDF(password, salt);
@@ -67,7 +66,7 @@ class FreeverseIdentity {
   }
 
   // Decryption of an encrypted private key, given a user-entered password, following AES standard.
-  DecryptIdentity(encryptedIdentity, password) {
+  static DecryptIdentity(encryptedIdentity, password) {
     // An encrypted Identity is a hex-formatted string, which is the concat of:
     // ...salt (32bit)
     const salt = CryptoJS.enc.Hex.parse(encryptedIdentity.slice(0, 32));
@@ -100,13 +99,13 @@ class FreeverseIdentity {
 
   // Returns a Web3 Account with a brand new pair (privateKey/user_id)
   // capable of signing on behalf of privateKey
-  CreateNewAccount() {
+  static CreateNewAccount() {
     return new Web3().eth.accounts.create();
   }
 
   // Returns a Web3 Account from a given privateKey,
   // capable of signing on behalf of privateKey
-  AccountFromPrivateKey(privKey) {
+  static AccountFromPrivateKey(privKey) {
     try {
       return new Web3().eth.accounts.privateKeyToAccount(privKey);
     } catch {
@@ -115,6 +114,4 @@ class FreeverseIdentity {
   }
 }
 
-module.exports = {
-  FreeverseIdentity,
-};
+module.exports = FreeverseIdentity;

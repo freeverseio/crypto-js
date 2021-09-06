@@ -1,8 +1,6 @@
 const { assert } = require('chai');
 const fs = require('fs');
-const { FreeverseIdentity } = require('../src/FreeverseIdentity');
-
-const id = new FreeverseIdentity();
+const id = require('../src/FreeverseIdentity');
 
 it('check decryption given encryptedID and user password', async () => {
   const tests = JSON.parse(fs.readFileSync('test/groundtruth.json', 'utf8'));
