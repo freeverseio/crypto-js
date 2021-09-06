@@ -1,11 +1,8 @@
-const Web3 = require('web3');
-
-const web3 = new Web3(Web3.givenProvider);
 const { assert } = require('chai');
 const fs = require('fs');
 const { FreeverseIdentity } = require('../src/FreeverseIdentity');
 
-const id = new FreeverseIdentity(web3);
+const id = new FreeverseIdentity();
 
 it('check decryption given encryptedID and user password', async () => {
   const tests = JSON.parse(fs.readFileSync('test/groundtruth.json', 'utf8'));

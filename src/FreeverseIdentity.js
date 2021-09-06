@@ -23,6 +23,7 @@
 // SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 /* eslint class-methods-use-this: 0 */
+const Web3 = require('web3');
 const CryptoJS = require('crypto-js');
 
 // Use a an AES-Standard KDF (Key Derivation Function) to generate (IV, key) from (password, salt)
@@ -42,10 +43,6 @@ function applyKDF(password, salt) {
 /* MAIN CLASS */
 
 class FreeverseIdentity {
-  constructor(web3) {
-    this.web3 = web3;
-  }
-
   // Returns the public freeverseID corresponding to the provided private key.
   // The freeverseID can be shared. The Private key should never leave the user's control.
   FreeverseIdFromPrivateKey(privKey) {
@@ -104,14 +101,14 @@ class FreeverseIdentity {
   // Returns a Web3 Account with a brand new pair (privateKey/user_id)
   // capable of signing on behalf of privateKey
   CreateNewAccount() {
-    return this.web3.eth.accounts.create();
+    return new Web3().eth.accounts.create();
   }
 
   // Returns a Web3 Account from a given privateKey,
   // capable of signing on behalf of privateKey
   AccountFromPrivateKey(privKey) {
     try {
-      return this.web3.eth.accounts.privateKeyToAccount(privKey);
+      return new Web3().eth.accounts.privateKeyToAccount(privKey);
     } catch {
       throw new Error('Private Key does not have correct format');
     }
