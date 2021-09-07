@@ -1,6 +1,14 @@
 {
     "name": "freeverse-crypto-js",
     "version": "1.0.0",
+    "description": "Library for creating, managing and exporting identities",
+    "homepage": "https://www.freeverse.io/",
+    "author": "The Freeverse.io team <dev@freeverse.io> (https://www.freeverse.io/)",
+    "license" : "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/freeverseio/crypto-js"
+    },
     "private": false,
     "dependencies": {
         "crypto-js": "^4.1.1",
