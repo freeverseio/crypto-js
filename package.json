@@ -1,6 +1,7 @@
 {
     "name": "freeverse-crypto-js",
-    "version": "1.0.0",
+    "version": "1.0.1",
+    "main": "src/FreeverseIdentity.js",
     "description": "Library for creating, managing and exporting identities",
     "homepage": "https://www.freeverse.io/",
     "author": "The Freeverse.io team <dev@freeverse.io> (https://www.freeverse.io/)",
