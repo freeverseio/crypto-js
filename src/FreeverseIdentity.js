@@ -22,7 +22,7 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 // SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-const Web3 = require('web3');
+const Accounts = require('web3-eth-accounts');
 const CryptoJS = require('crypto-js');
 
 // Use a an AES-Standard KDF (Key Derivation Function) to generate (IV, key) from (password, salt)
@@ -41,13 +41,13 @@ const applyKDF = (password, salt) => {
 
 // Returns a Web3 Account with a brand new pair (privateKey/user_id)
 // capable of signing on behalf of privateKey
-const createNewAccount = () => new Web3().eth.accounts.create();
+const createNewAccount = () => new Accounts().create();
 
 // Returns a Web3 Account from a given privateKey,
 // capable of signing on behalf of privateKey
 const accountFromPrivateKey = (privKey) => {
   try {
-    return new Web3().eth.accounts.privateKeyToAccount(privKey);
+    return new Accounts().privateKeyToAccount(privKey);
   } catch {
     throw new Error('Private Key does not have correct format');
   }

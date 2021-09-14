@@ -1,6 +1,6 @@
 {
     "name": "freeverse-crypto-js",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "main": "src/FreeverseIdentity.js",
     "description": "Library for creating, managing and exporting identities",
     "homepage": "https://www.freeverse.io/",
@@ -13,7 +13,7 @@
     "private": false,
     "dependencies": {
         "crypto-js": "^4.1.1",
-        "web3": "^1.5.2"
+        "web3-eth-accounts": "^1.5.2"
     },
     "scripts": {
         "test": "./node_modules/.bin/mocha && npx eslint ."
