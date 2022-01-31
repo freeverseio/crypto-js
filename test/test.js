@@ -6,7 +6,7 @@ const {
   decryptIdentity,
   createNewAccount,
   accountFromPrivateKey,
-} = require('../src/FreeverseIdentity');
+} = require('../dist/main');
 
 it('check decryption given encryptedID and user password', async () => {
   const tests = JSON.parse(fs.readFileSync('test/groundtruth.json', 'utf8'));
