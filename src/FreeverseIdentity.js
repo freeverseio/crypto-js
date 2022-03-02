@@ -22,8 +22,8 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 // SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-const Accounts = require('web3-eth-accounts');
-const CryptoJS = require('crypto-js');
+const Accounts = require('web3-eth-accounts').default;
+const CryptoJS = require('crypto-js').default;
 
 // Use a an AES-Standard KDF (Key Derivation Function) to generate (IV, key) from (password, salt)
 // This is a standard step that makes brute-force attacks much harder
