@@ -24,6 +24,7 @@
 
 const Accounts = require('web3-eth-accounts').default;
 const CryptoJS = require('crypto-js').default;
+const EthCrypto = require('eth-crypto');
 
 // Use a an AES-Standard KDF (Key Derivation Function) to generate (IV, key) from (password, salt)
 // This is a standard step that makes brute-force attacks much harder
@@ -108,10 +109,40 @@ const decryptIdentity = (encryptedIdentity, password) => {
   return privKey;
 };
 
+// encrypts a string so that it can only be decrypted
+// by the owner of the privKey that corresponds to the publicKey
+const encryptWithPublicKey = async (textToEncrypt, publicKey) => {
+  // obtaining an object with the encrypted data
+  const encryptedObject = await EthCrypto.encryptWithPublicKey(
+    publicKey,
+    textToEncrypt,
+  );
+  // converting the encrypted object into a encrypted String
+  const encryptedString = EthCrypto.cipher.stringify(encryptedObject);
+  return encryptedString;
+};
+
+// decrypts a string that was encrypted for a given publicKey
+const decryptWithPrivateKey = async (encryptedString, privateKey) => {
+  // converting the encypted String into an encrypted object
+  const encryptedObject = EthCrypto.cipher.parse(encryptedString);
+  // decrypt the en encrypted object with the private key
+  const decrypted = await EthCrypto.decryptWithPrivateKey(
+    privateKey,
+    encryptedObject,
+  );
+  return decrypted;
+};
+
+const publicKeyFromPrivateKey = (privKey) => EthCrypto.publicKeyByPrivateKey(privKey);
+
 module.exports = {
   freeverseIdFromPrivateKey,
   encryptIdentity,
   decryptIdentity,
   createNewAccount,
   accountFromPrivateKey,
+  encryptWithPublicKey,
+  decryptWithPrivateKey,
+  publicKeyFromPrivateKey,
 };
