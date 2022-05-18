@@ -1,6 +1,6 @@
 {
     "name": "freeverse-crypto-js",
-    "version": "1.0.5",
+    "version": "1.0.6",
     "source": "src/FreeverseIdentity.js",
     "main": "dist/main.js",
     "module": "dist/module.js",
@@ -15,6 +15,7 @@
     "private": false,
     "dependencies": {
         "crypto-js": "^4.1.1",
+        "eth-crypto": "^2.3.0",
         "web3-eth-accounts": "^1.7.0"
     },
     "scripts": {
