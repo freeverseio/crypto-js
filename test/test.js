@@ -86,7 +86,7 @@ it('check error message provided on invalid private key', async () => {
   assert.throws(() => freeverseIdFromPrivateKey('123213123'), 'Private Key does not have correct format');
 });
 
-it('Alice encrypts for a given pubKey by owned by Bob, who decrypts with the corresponding privKey', async () => {
+it('Alice encrypts for a given pubKey owned by Bob, who decrypts with the corresponding privKey', async () => {
   const bobPrivKey = '0x56450b9e335eb41b0c90454285001f793e7bac2b2c94c353c392b38a2292e7d0';
   const bobPubKey = publicKeyFromPrivateKey(bobPrivKey);
 
