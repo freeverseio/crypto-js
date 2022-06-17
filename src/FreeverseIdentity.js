@@ -54,9 +54,21 @@ const accountFromPrivateKey = (privKey) => {
   }
 };
 
-// Returns the public freeverseID corresponding to the provided private key.
-// The freeverseID can be shared. The Private key should never leave the user's control.
+/**
+ * Returns the public freeverseID corresponding to the provided private key.
+ * The freeverseID can be shared. The Private key should never leave the user's control.
+ * @deprecated since version 1.0.7
+ */
 const freeverseIdFromPrivateKey = (privKey) => {
+  const account = accountFromPrivateKey(privKey);
+  return account.address;
+};
+
+/**
+ * Returns the public freeverseID corresponding to the provided private key.
+ * The freeverseID can be shared. The Private key should never leave the user's control.
+ */
+const web3AddressFromPrivateKey = (privKey) => {
   const account = accountFromPrivateKey(privKey);
   return account.address;
 };
@@ -138,6 +150,7 @@ const publicKeyFromPrivateKey = (privKey) => EthCrypto.publicKeyByPrivateKey(pri
 
 module.exports = {
   freeverseIdFromPrivateKey,
+  web3AddressFromPrivateKey,
   encryptIdentity,
   decryptIdentity,
   createNewAccount,
