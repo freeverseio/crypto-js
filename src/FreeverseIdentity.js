@@ -114,7 +114,7 @@ const decryptIdentity = (encryptedIdentity, password) => {
   // Before returning, check that a valid account can be generated from this privKey
   // Otherwise: throw.
   try {
-    freeverseIdFromPrivateKey(privKey);
+    web3AddressFromPrivateKey(privKey);
   } catch {
     throw new Error('The Encrypted ID and Password entered do not match');
   }
