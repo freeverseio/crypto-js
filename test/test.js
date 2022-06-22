@@ -2,6 +2,7 @@ const { assert } = require('chai');
 const fs = require('fs');
 const {
   freeverseIdFromPrivateKey,
+  web3AddressFromPrivateKey,
   encryptIdentity,
   decryptIdentity,
   createNewAccount,
@@ -23,6 +24,13 @@ it('check obtention of freeverseId from private key', async () => {
   const tests = JSON.parse(fs.readFileSync('test/groundtruth.json', 'utf8'));
   tests.forEach((test) => {
     assert.equal(freeverseIdFromPrivateKey(test.privateKey), test.freeverseId);
+  });
+});
+
+it('check obtention of web3 address from private key', async () => {
+  const tests = JSON.parse(fs.readFileSync('test/data.json', 'utf8'));
+  tests.forEach((test) => {
+    assert.equal(web3AddressFromPrivateKey(test.privateKey), test.address);
   });
 });
 
@@ -48,7 +56,6 @@ it('check round trip encrypt + decrypt', async () => {
 
 it('check round trip encrypt + decrypt with brand new created web3 accounts', async () => {
   const acc = createNewAccount();
-  freeverseIdFromPrivateKey(acc.privateKey);
   const password = 'P@ssw0rd';
   const encrypted = encryptIdentity(acc.privateKey, password);
   const decrypted = decryptIdentity(encrypted, password);
@@ -84,6 +91,7 @@ it('check decryptIdentity throws on wrong pair encryptedID - userPassword', asyn
 it('check error message provided on invalid private key', async () => {
   assert.throws(() => accountFromPrivateKey('123213123'), 'Private Key does not have correct format');
   assert.throws(() => freeverseIdFromPrivateKey('123213123'), 'Private Key does not have correct format');
+  assert.throws(() => web3AddressFromPrivateKey('123213123'), 'Private Key does not have correct format');
 });
 
 it('Alice encrypts for a given pubKey owned by Bob, who decrypts with the corresponding privKey', async () => {
