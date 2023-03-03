@@ -15,8 +15,7 @@
   "private": false,
   "dependencies": {
     "crypto-js": "^4.1.1",
-    "eth-crypto": "^2.3.0",
-    "web3-eth-accounts": "^1.7.0"
+    "web3-eth-accounts": "^1.8.2"
   },
   "scripts": {
     "test": "npm run build && ./node_modules/.bin/mocha && npx eslint ./src && npx eslint ./test",
