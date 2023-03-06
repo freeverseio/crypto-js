@@ -1,6 +1,6 @@
 {
   "name": "freeverse-crypto-js",
-  "version": "1.0.7",
+  "version": "2.0.0",
   "source": "src/FreeverseIdentity.js",
   "main": "dist/main.js",
   "module": "dist/module.js",
